@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Wrapper, Days, Content, Overview, Icon } from '../Styles/weatherForecastStyled';
 
-export default function weatherForecast() {
+function WeatherForecast(props) {
   return (
       <Wrapper>
         <Content>
@@ -13,3 +13,5 @@ export default function weatherForecast() {
       </Wrapper>
   )
 }
+
+export default WeatherForecast;

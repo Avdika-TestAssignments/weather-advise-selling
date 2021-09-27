@@ -1,24 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { StyledInput, } from '../Styles/inputStyled';
+import { StyledInput, StyledButton} from '../Styles/inputStyled';
 
-const Input = (props) => {
+const InputForm = (props) => {
+  const [value, setValue] = React.useState('');
+
+  const changeValue = (event) => {
+    setValue(event.target.value);
+  };
+
+  const submitValue = (event) => {
+    event.preventDefault();
+    if (value === '') {
+      alert('Please enter City name,State or City name');
+    } else {
+      props.onSubmit(value);
+      setValue('');
+    }
+  };
+
   return (
-    <>
-      <StyledInput hasError={props.hasError} {...props} />
-    </>
+    <form>
+      <StyledInput
+        type="text"
+        placeholder={props.placeholder}
+        value={value}
+        onChange={changeValue}
+        autoComplete="off"
+      />
+      <StyledButton onClick={event => { submitValue(event) }}>
+        {props.buttonText}
+      </StyledButton>
+    </form>
   )
 }
 
-Input.propTypes = {
-  forwardedref: PropTypes.object.isRequired,
-  hasError: PropTypes.bool,
-  errorMsg: PropTypes.string.isRequired,
-}
-
-Input.defaultProps = {
-  hasError: ''
-}
-
-export default Input;
+export default InputForm;
