@@ -4,6 +4,7 @@ import { StyledInput, StyledButton} from '../Styles/inputStyled';
 
 const InputForm = (props) => {
   const [value, setValue] = React.useState('');
+  const [showAlert, setShowAlert] = React.useState(false);
 
   const changeValue = (event) => {
     setValue(event.target.value);
@@ -12,8 +13,9 @@ const InputForm = (props) => {
   const submitValue = (event) => {
     event.preventDefault();
     if (value === '') {
-      alert('Please enter City name,State or City name');
+      setShowAlert(true);
     } else {
+      setShowAlert(false);
       props.onSubmit(value);
       setValue('');
     }
@@ -28,6 +30,9 @@ const InputForm = (props) => {
         onChange={changeValue}
         autoComplete="off"
       />
+      { showAlert ? <div>
+        Please enter City name,State or City name
+      </div> : null }
       <StyledButton onClick={event => { submitValue(event) }}>
         {props.buttonText}
       </StyledButton>

@@ -8,13 +8,13 @@ import WeatherForecast from './WeatherForecast';
 
 function WeatherSearch() {
   const [weather, setWeather] = React.useState([]);
-  const [emptySearch, setEmptySearch] = React.useState(false);
+  // const [emptySearch, setEmptySearch] = React.useState(false);
   const URL = 'https://api.weatherbit.io/v2.0/forecast/daily?';
   const days = 5;
 
   const handleResult = result => {
     setWeather(result);
-    setEmptySearch(result.length === 0);
+    // setEmptySearch(result.length === 0);
   };
 
   const searchCityWeather = (cityName) => {
@@ -22,7 +22,7 @@ function WeatherSearch() {
 
     trackPromise(
       axios
-        .get(`${URL}?city=${cityName}&key=${apiKey}&days=${days}`)
+        .get(`${URL}city=${cityName}&key=${apiKey}&days=${days}`)
         .then(result => handleResult(result.data))
         .catch((error) => {
           console.log('we have received an error: ', error);
