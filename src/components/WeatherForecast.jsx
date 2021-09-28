@@ -14,14 +14,16 @@ const WeatherForecast = (props) => {
   let sellingAdvise = '';
 
   for (const el of fiveDayWeatherData) {
+    let dayName = el.valid_date.getDay()
+
     if (coldWeather.includes(el.weather.code)) {
-      sellingAdvise = `You can sell a jacket on fiveDayWeatherData[i].`;
+      sellingAdvise = `You can sell a jacket on ${dayName}`;
       return;
     } else if (rainWeather.includes(el.weather.code)) {
-      sellingAdvise = `You can sell an umbrella`;
+      sellingAdvise = `You can sell an umbrella on ${dayName}`;
       return;
     } else if (stormWeather.includes(el.weather.code)) {
-      sellingAdvise = `You can sell an umbrella and a jacket`;
+      sellingAdvise = `You can sell an umbrella and a jacket on ${dayName}`;
       return;
     } else {
       sellingAdvise = `The weather will be good enough for your goods, maybe try to sell sunglasses`;
@@ -33,20 +35,19 @@ const WeatherForecast = (props) => {
       <Overview />
       <h3>{weatherData.city_name}</h3>
       <Overview />
-      <Raws className="row">
-        <Column className="cell">Day</Column>
-        <Column className="cell">Temperature </Column>
-        <Column className="cell">Image </Column>
-        <Column className="cell">Description</Column>
+      <Raws>
+        <Column>Day</Column>
+        <Column>Temperature </Column>
+        <Column>Image </Column>
+        <Column>Description</Column>
       </Raws>
       {fiveDayWeatherData.map(item => (
-        <Raws className="row" key={item.id}>
-          <Column className="cell">Day</Column>
-          <Column className="cell">{item.high_temp}/{item.low_temp}</Column>
-          <Column><Icon className="cell">{item.weather.icon}</Icon>
+        <Raws key={item.id}>
+          <Column>Day</Column>
+          <Column>{item.high_temp}/{item.low_temp}</Column>
+          <Column><Icon src="../Icons/{item.weather.icon}.png" />
           </Column>
-          <Icon className="cell">{item.weather.icon}</Icon>
-          <Column className="cell">{item.weather.description}</Column>
+          <Column>{item.weather.description}</Column>
         </Raws>
       ))}
       <h3>{sellingAdvise}</h3>

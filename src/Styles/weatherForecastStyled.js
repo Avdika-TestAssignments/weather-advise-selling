@@ -31,7 +31,7 @@ position: relative;
 border: 1px solid blue;
 `;
 
-export const Icon = styled.div`
+export const Icon = styled.img`
 width: 50%;
 z-index: 2;
 text-align: center;
