@@ -15,11 +15,18 @@ box-shadow: 2px 5px 20px 1px #444;
 export const Raws = styled.div`
 display: flex;
 min-height: 20px;
+border: 1px solid black;
 `;
 
-export const Column = styled.div`
+export const Column = styled.div.attrs({
+  className: "dayName"
+})`
 padding: 5px;
 box-sizing: border-box;
+
+&.dayName{
+  width: 92px;
+}
 `;
 
 export const Overview = styled.div`
@@ -29,18 +36,11 @@ display: inline-block;
 float: left;
 z-index: 2;
 position: relative;
-border: 1px solid blue;
 `;
 
 export const Icon = styled.img`
-width: 50%;
-z-index: 2;
-text-align: center;
-float: left;
-font-size: 50px;
-text-align: center;
-margin-top: 0.5em;
+width: 40px;
+height: auto;
 position: relative;
 vertical-align: middle;
-border: 1px solid orange;
 `;

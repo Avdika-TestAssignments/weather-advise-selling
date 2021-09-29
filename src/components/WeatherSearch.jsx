@@ -1,15 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
 import { trackPromise } from 'react-promise-tracker';
 
-import { apiKey } from '../Config/constants';
+import { apiKey, URL, days } from '../Config/constants';
 import InputForm from './Input';
 import WeatherForecast from './WeatherForecast';
 
 const WeatherSearch = () => {
-  const [weather, setWeather] = React.useState([]);
-  const URL = 'https://api.weatherbit.io/v2.0/forecast/daily?';
-  const days = 5;
+  const [weather, setWeather] = useState([]);
 
   const handleResult = result => {
     setWeather(result);

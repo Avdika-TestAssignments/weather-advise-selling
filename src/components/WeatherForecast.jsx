@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
 import { Wrapper, Raws, Column, Overview, Icon } from '../Styles/weatherForecastStyled';
-
-export const stormWeather = [200, 201, 202, 230, 231, 232, 233, 610, 611, 612];
-
-const getDayName = date => new Date(date.valid_date).toLocaleDateString('en-GB', { weekday: 'long' });
+import { stormWeather,
+         coldWeather,
+         rainWeather
+         } from '../Config/constants';
+import { getDayName,
+         getStormWeather,
+         getColdWeather,
+         getRainWeather,
+         getIcon
+        } from '../Config/helpers';
 
 const WeatherForecast = (props) => {
   const { weather } = props;
-  const fiveDayweather = weather?.data ?? [];
-
-  const coldWeather = [600, 601, 602, 621, 622, 623, 700, 711, 721, 731, 741, 751];
-  const rainWeather = [300, 301, 302, 500, 501, 502, 511, 520, 521, 522];
+  const fiveDayweather = weather.data ?? [];
 
   const [rainyDay, setRainyDay] = useState('');
   const [coldDay, setColdDay] = useState('');
@@ -23,41 +26,39 @@ const WeatherForecast = (props) => {
     let stormCheck = false;
     let coldCheck = false;
     let rainCheck = false;
+
     for (const el of fiveDayweather) {
       const dayName = getDayName(el);
       const weatherCode = el.weather.code;
 
-      stormCheck = stormWeather.includes(weatherCode);
-      console.log('__ wear: ', weatherCode);
-      
+      stormCheck = getStormWeather(stormWeather, weatherCode);
+
       //first check for the worst weather
-      
       if (stormCheck) {
         setStormDay(`You can sell an umbrella and a jacket on ${dayName}`);
         setColdDay('');
         setRainyDay('');
         setSellingAdvise('');
-        console.log('__ storm code: ', stormDay);
         break;
       }
-  
-      if (!coldCheck && coldWeather.includes(weatherCode)) {
+
+      if (!coldCheck && getColdWeather(coldWeather, weatherCode)) {
         setColdDay(`You can sell a jacket on ${dayName}`);
         setSellingAdvise('');
         setStormDay('');
         coldCheck = true;
       }
-      
-      if (!rainCheck && rainWeather.includes(weatherCode)) {
+
+      if (!rainCheck && getRainWeather(rainWeather, weatherCode)) {
         setRainyDay(`You can sell an umbrella on ${dayName}`);
         setSellingAdvise('');
         setStormDay('');
         rainCheck = true;
       }
-      
+
       if (coldCheck && rainCheck) break;
     }
-    
+
     //if there is no bad weather
     if (weather?.city_name && !stormCheck && !coldCheck && !rainCheck) {
       setSellingAdvise(`The weather will be good enough for your goods, maybe try to sell sunglasses`);
@@ -65,7 +66,7 @@ const WeatherForecast = (props) => {
       setColdDay('');
       setRainyDay('');
     }
-  }, [weather.city_name, stormDay, sellingAdvise, coldDay, rainyDay, fiveDayweather, stormWeather, coldWeather, rainWeather]);
+  }, [weather.city_name, stormDay, sellingAdvise, coldDay, rainyDay, fiveDayweather]);
 
   return (
     <Wrapper>
@@ -73,16 +74,16 @@ const WeatherForecast = (props) => {
       <h3>{weather.city_name}</h3>
       <Overview />
       <Raws>
-        <Column>Day</Column>
+        <Column className = 'dayName'>Day</Column>
         <Column>Temperature </Column>
         <Column></Column>
         <Column>Description</Column>
       </Raws>
       {fiveDayweather.map(item => (
         <Raws key={item.moon_phase}>
-          <Column>{getDayName(item)}</Column>
+          <Column className = 'dayName'>{getDayName(item)}</Column>
           <Column>{item.high_temp}/{item.low_temp}</Column>
-          <Column><Icon src={`../Icons/${item.weather.icon}.png`} />
+          <Column><Icon src={getIcon(item)} />
           </Column>
           <Column>{item.weather.description}</Column>
         </Raws>
