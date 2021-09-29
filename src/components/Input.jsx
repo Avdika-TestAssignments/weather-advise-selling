@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyledInput, StyledButton} from '../Styles/inputStyled';
+import { StyledInput, StyledButton } from '../Styles/inputStyled';
 
 const InputForm = (props) => {
   const [value, setValue] = React.useState('');
@@ -30,9 +30,9 @@ const InputForm = (props) => {
         onChange={changeValue}
         autoComplete="off"
       />
-      { showAlert ? <div>
+      {showAlert ? <div>
         Please enter City name,State or City name
-      </div> : null }
+      </div> : null}
       <StyledButton onClick={event => { submitValue(event) }}>
         {props.buttonText}
       </StyledButton>
