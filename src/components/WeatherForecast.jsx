@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 
 import { Wrapper, Raws, Column, Overview, Icon } from '../Styles/weatherForecastStyled';
+
+export const stormWeather = [200, 201, 202, 230, 231, 232, 233, 610, 611, 612];
 
 const getDayName = date => new Date(date.valid_date).toLocaleDateString('en-GB', { weekday: 'long' });
 
@@ -10,39 +12,60 @@ const WeatherForecast = (props) => {
 
   const coldWeather = [600, 601, 602, 621, 622, 623, 700, 711, 721, 731, 741, 751];
   const rainWeather = [300, 301, 302, 500, 501, 502, 511, 520, 521, 522];
-  const stormWeather = [200, 201, 202, 230, 231, 232, 233, 610, 611, 612];
 
-  const [rainyDay, setRainyDay] = React.useState('');
-  const [coldDay, setColdDay] = React.useState('');
-  const [sellingAdvise, setSellingAdvise] = React.useState('');
+  const [rainyDay, setRainyDay] = useState('');
+  const [coldDay, setColdDay] = useState('');
+  const [stormDay, setStormDay] = useState('');
+  const [sellingAdvise, setSellingAdvise] = useState('');
 
   //check if the weather matches the specified conditions
-  for (const el of fiveDayweather) {
-    const dayName = getDayName(el);
+  useEffect(() => {
+    let stormCheck = false;
+    let coldCheck = false;
+    let rainCheck = false;
+    for (const el of fiveDayweather) {
+      const dayName = getDayName(el);
+      const weatherCode = el.weather.code;
 
-    //first check for the worst weather
-    if (stormWeather.includes(el.weather.code)) {
-      setSellingAdvise(`You can sell an umbrella and a jacket on ${dayName}`);
-      break;
+      stormCheck = stormWeather.includes(weatherCode);
+      console.log('__ wear: ', weatherCode);
+      
+      //first check for the worst weather
+      
+      if (stormCheck) {
+        setStormDay(`You can sell an umbrella and a jacket on ${dayName}`);
+        setColdDay('');
+        setRainyDay('');
+        setSellingAdvise('');
+        console.log('__ storm code: ', stormDay);
+        break;
+      }
+  
+      if (!coldCheck && coldWeather.includes(weatherCode)) {
+        setColdDay(`You can sell a jacket on ${dayName}`);
+        setSellingAdvise('');
+        setStormDay('');
+        coldCheck = true;
+      }
+      
+      if (!rainCheck && rainWeather.includes(weatherCode)) {
+        setRainyDay(`You can sell an umbrella on ${dayName}`);
+        setSellingAdvise('');
+        setStormDay('');
+        rainCheck = true;
+      }
+      
+      if (coldCheck && rainCheck) break;
     }
-
-    if (coldWeather.includes(el.weather.code)) {
-      setColdDay(`You can sell a jacket on ${dayName}`);
+    
+    //if there is no bad weather
+    if (weather?.city_name && !stormCheck && !coldCheck && !rainCheck) {
+      setSellingAdvise(`The weather will be good enough for your goods, maybe try to sell sunglasses`);
+      setStormDay('');
+      setColdDay('');
+      setRainyDay('');
     }
-
-    if (rainWeather.includes(el.weather.code)) {
-      setRainyDay(`You can sell an umbrella on ${dayName}`);
-    }
-
-    console.log('______ rainyDay : ', rainyDay);
-    console.log('______ coldDay : ', coldDay);
-    console.log('______ sellingAdvise : ', sellingAdvise);
-  }
-
-  //if there is no bad weather
-  if (weather?.city_name && !sellingAdvise && !coldDay && !rainyDay) {
-    setSellingAdvise(`The weather will be good enough for your goods, maybe try to sell sunglasses`);
-  }
+  }, [weather.city_name, stormDay, sellingAdvise, coldDay, rainyDay, fiveDayweather, stormWeather, coldWeather, rainWeather]);
 
   return (
     <Wrapper>
@@ -64,8 +87,9 @@ const WeatherForecast = (props) => {
           <Column>{item.weather.description}</Column>
         </Raws>
       ))}
-      {rainyDay ? <h3>{sellingAdvise}</h3> : null}
-      {coldDay ? <h3>{sellingAdvise}</h3> : null}
+      {stormDay ? <h3>{stormDay}</h3> : null}
+      {rainyDay ? <h3>{rainyDay}</h3> : null}
+      {coldDay ? <h3>{coldDay}</h3> : null}
       {sellingAdvise ? <h3>{sellingAdvise}</h3> : null}
     </Wrapper>
   )
