@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import { Wrapper, Raws, Column, Overview, Icon } from '../Styles/weatherForecastStyled';
 import {
@@ -16,7 +16,10 @@ import {
 
 const WeatherForecast = (props) => {
   const { weather } = props;
-  const fiveDayweather = weather?.data ?? [];
+
+  const fiveDayweather = useMemo(() => {
+    return weather?.data ?? [];
+  }, [weather]);
 
   const [rainyDay, setRainyDay] = useState('');
   const [coldDay, setColdDay] = useState('');
@@ -44,6 +47,7 @@ const WeatherForecast = (props) => {
         break;
       }
 
+      //check for first cold day
       if (!coldCheck && getColdWeather(coldWeather, weatherCode)) {
         setColdDay(`You can sell a jacket on ${dayName}`);
         setSellingAdvise('');
@@ -51,6 +55,7 @@ const WeatherForecast = (props) => {
         coldCheck = true;
       }
 
+      //check for first rainy day
       if (!rainCheck && getRainWeather(rainWeather, weatherCode)) {
         setRainyDay(`You can sell an umbrella on ${dayName}`);
         setSellingAdvise('');
