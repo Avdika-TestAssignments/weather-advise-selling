@@ -39,7 +39,7 @@ As a result, I have a check for the first rainy day, the first cold day and a ch
  - Add more goods that could be sold
  - Update selling advise logic. Add additional conditions (for example: to sell PlayStation if there will be 5+ rain days or camping tent if sunny)
  - Add link to nearest store or internet store where customer could buy goods from adverting
- -
+ - Add security checks for input
 
 # Getting Started with Create React App
 
