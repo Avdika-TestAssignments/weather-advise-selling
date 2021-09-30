@@ -6,7 +6,7 @@ flex-direction: column;
 margin: 30px auto;
 width: 96%;
 max-width: 420px;
-border: 1px solid #de6042;
+border: 1px solid #1b3a79;
 border-radius: 10px;
 overflow: hidden;
 box-shadow: 2px 5px 20px 1px #444;
@@ -15,7 +15,6 @@ box-shadow: 2px 5px 20px 1px #444;
 export const Raws = styled.div`
 display: flex;
 min-height: 20px;
-border: 1px solid black;
 `;
 
 export const Column = styled.div.attrs({

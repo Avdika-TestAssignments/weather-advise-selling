@@ -22,20 +22,22 @@ const InputForm = (props) => {
   };
 
   return (
-    <form>
-      <StyledInput
+    <form data-testid='inputForm'>
+      <StyledInput data-testid='inputField'
         type="text"
         placeholder={props.placeholder}
         value={value}
         onChange={changeValue}
         autoComplete="off"
       />
-      {showAlert ? <div>
-        Please enter City name,State or City name
-      </div> : null}
-      <StyledButton onClick={event => { submitValue(event) }}>
+      <StyledButton data-testid='inputButton'
+        onClick={event => { submitValue(event) }}
+      >
         {props.buttonText}
       </StyledButton>
+      {showAlert ? <div data-testid='inputAllert'>
+        Please enter City name,State or City name
+      </div> : null}
     </form>
   )
 }

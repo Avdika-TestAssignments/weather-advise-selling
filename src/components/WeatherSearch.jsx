@@ -26,7 +26,7 @@ const WeatherSearch = () => {
   };
 
   return (
-    <div>
+    <div data-testid='searchBlock'>
       <InputForm
         placeholder="Enter City Name"
         buttonText="Search"
