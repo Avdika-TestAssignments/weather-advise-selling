@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 import { Wrapper, Raws, Column, Overview, Icon } from '../Styles/weatherForecastStyled';
-import { stormWeather,
-         coldWeather,
-         rainWeather
-         } from '../Config/constants';
-import { getDayName,
-         getStormWeather,
-         getColdWeather,
-         getRainWeather,
-         getIcon
-        } from '../Config/helpers';
+import {
+  stormWeather,
+  coldWeather,
+  rainWeather
+} from '../Config/constants';
+import {
+  getDayName,
+  getStormWeather,
+  getColdWeather,
+  getRainWeather,
+  getIcon
+} from '../Config/helpers';
 
 const WeatherForecast = (props) => {
   const { weather } = props;
-  const fiveDayweather = weather.data ?? [];
+  const fiveDayweather = weather?.data ?? [];
 
   const [rainyDay, setRainyDay] = useState('');
   const [coldDay, setColdDay] = useState('');
@@ -66,22 +68,22 @@ const WeatherForecast = (props) => {
       setColdDay('');
       setRainyDay('');
     }
-  }, [weather.city_name, stormDay, sellingAdvise, coldDay, rainyDay, fiveDayweather]);
+  }, [weather?.city_name, stormDay, sellingAdvise, coldDay, rainyDay, fiveDayweather]);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid='forecast'>
       <Overview />
-      <h3>{weather.city_name}</h3>
+      <h3>{weather?.city_name}</h3>
       <Overview />
       <Raws>
-        <Column className = 'dayName'>Day</Column>
+        <Column className='dayName'>Day</Column>
         <Column>Temperature </Column>
         <Column></Column>
         <Column>Description</Column>
       </Raws>
       {fiveDayweather.map(item => (
-        <Raws key={item.moon_phase}>
-          <Column className = 'dayName'>{getDayName(item)}</Column>
+        <Raws key={item.moon_phase} className='weatherRows'>
+          <Column className='dayName'>{getDayName(item)}</Column>
           <Column>{item.high_temp}/{item.low_temp}</Column>
           <Column><Icon src={getIcon(item)} />
           </Column>
